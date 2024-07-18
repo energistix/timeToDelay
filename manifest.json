@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "SimklTimeConverter",
+  "version": "0.1",
+  "description": "Convert fancy dates to readable delays",
+  "content_scripts": [
+    {
+      "matches": ["*://*.simkl.com/*"],
+      "js": ["index.js"]
+    }
+  ]
+}

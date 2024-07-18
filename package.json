@@ -1,0 +1,14 @@
+{
+  "name": "timetodelay",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "bun build . --target=browser --outfile=index.js --minify"
+  }
+}
