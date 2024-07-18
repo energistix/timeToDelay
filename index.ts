@@ -1,4 +1,4 @@
-import fancyDateToReadableDelay from "./dateConverter"
+import { estimateTimeUntil, parseDate } from "./parseDates"
 
 function main() {
   const elements = document.querySelectorAll<HTMLElement>(
@@ -9,9 +9,8 @@ function main() {
 
   elements.forEach((element) => {
     try {
-      const date = element.innerText
-      console.log(date)
-      const readableDelay = fancyDateToReadableDelay(date)
+      const date = parseDate(element.innerText)
+      const readableDelay = estimateTimeUntil(date)
       element.innerText = readableDelay
     } catch (error) {}
   })
