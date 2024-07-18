@@ -76,6 +76,7 @@ const typeThreeParser = A.sequenceOf([
   A.str("-"),
   A.exactly(4)(A.digit).map(concatenateAndParseInt),
 ]).map(([, , day, , month, , year]) => {
+  // FIX: this handles poorly when the next day that corresponds is technically within this week
   return new Date(year, month - 1, day)
 })
 
@@ -91,9 +92,8 @@ function parseDate(date: string) {
 }
 
 function estimateTimeUntil(futureDate: Date) {
-  // TODO: Say "tomorrow" instead of "in x hours" when appropriate
-  const now = Date.now()
-  const diffInMs = futureDate.getTime() - now
+  const now = new Date()
+  const diffInMs = futureDate.getTime() - now.getTime()
 
   if (diffInMs <= 0) {
     return "The date has passed"
@@ -104,12 +104,25 @@ function estimateTimeUntil(futureDate: Date) {
   const msInDay = 24 * msInHour
   const msInWeek = 7 * msInDay
 
+  const todayEnd = new Date(now)
+  todayEnd.setHours(23, 59, 59, 999)
+  const tomorrowStart = new Date(now)
+  tomorrowStart.setDate(now.getDate() + 1)
+  tomorrowStart.setHours(0, 0, 0, 0)
+
+  if (
+    futureDate >= tomorrowStart &&
+    futureDate.getTime() <= tomorrowStart.getTime() + msInDay
+  ) {
+    return "Tomorrow"
+  }
+
   if (diffInMs >= msInWeek) {
     const weeks = Math.round(diffInMs / msInWeek)
     return `in ${weeks} week${weeks > 1 ? "s" : ""}`
   } else if (diffInMs >= msInDay) {
     const days = Math.round(diffInMs / msInDay)
-    return days === 1 ? "Tomorrow" : `in ${days} day${days > 1 ? "s" : ""}`
+    return `in ${days} day${days > 1 ? "s" : ""}`
   } else if (diffInMs >= msInHour) {
     const hours = Math.round(diffInMs / msInHour)
     return `in ${hours} hour${hours > 1 ? "s" : ""}`
