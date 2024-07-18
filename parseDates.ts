@@ -64,7 +64,17 @@ const typeTwoParser = A.sequenceOf([
   A.str(" "),
   A.choice(days.map(A.str)),
 ]).map(([, , day]) => {
-  return parseDayTimeToDate(day, 0, 0, "PM")
+  const now = new Date()
+  const currentDayIndex = now.getDay()
+  const targetDayIndex = days.indexOf(day)
+
+  const date = parseDayTimeToDate(day, 0, 0, "PM")
+
+  if (targetDayIndex >= currentDayIndex) {
+    date.setDate(date.getDate() + 7)
+  }
+
+  return date
 })
 
 const typeThreeParser = A.sequenceOf([
@@ -137,24 +147,24 @@ function estimateTimeUntil(futureDate: Date) {
 export { parseDate, estimateTimeUntil }
 
 // Example usage:
-const futureDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) // 3 days from now
-console.log(estimateTimeUntil(futureDate)) // Output: "in 3 days"
+// const futureDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) // 3 days from now
+// console.log(estimateTimeUntil(futureDate)) // Output: "in 3 days"
 
-const dates = [
-  "Today, 04:00 PM",
-  "Tomorrow, 05:30 PM",
-  "Saturday, 03:25 AM",
-  "Sunday, 07:25 PM",
-  "Next Wednesday",
-  "Next Friday",
-  "Fri 23-08-2024",
-  "Tue 23-01-2025",
-].map((d) => d.trim())
+// const dates = [
+//   "Today, 04:00 PM",
+//   "Tomorrow, 05:30 PM",
+//   "Saturday, 03:25 AM",
+//   "Sunday, 07:25 PM",
+//   "Next Wednesday",
+//   "Next Friday",
+//   "Fri 23-08-2024",
+//   "Tue 23-01-2025",
+// ].map((d) => d.trim())
 
-dates.forEach((d) => {
-  console.log(
-    `${d} :\n${JSON.stringify(dateParser.run(d))}\n${estimateTimeUntil(
-      parseDate(d)
-    )}`
-  )
-})
+// dates.forEach((d) => {
+//   console.log(
+//     `${d} :\n${JSON.stringify(dateParser.run(d))}\n${estimateTimeUntil(
+//       parseDate(d)
+//     )}`
+//   )
+// })
