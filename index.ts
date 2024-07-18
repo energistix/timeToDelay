@@ -5,11 +5,18 @@ function main() {
     ".SimklTVProfilePosterEpisodeText"
   )
 
-  console.log(elements)
-
   elements.forEach((element) => {
     try {
-      const date = parseDate(element.innerText)
+      let date: Date | null = null
+
+      if (element.dataset.date) {
+        date = new Date(element.dataset.date)
+      }
+      if (date === null) {
+        date = parseDate(element.innerText)
+        element.dataset.date = date.toISOString()
+      }
+
       const readableDelay = estimateTimeUntil(date)
       element.innerText = readableDelay
     } catch (error) {}
