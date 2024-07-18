@@ -70,7 +70,7 @@ const typeTwoParser = A.sequenceOf([
 
   const date = parseDayTimeToDate(day, 0, 0, "PM")
 
-  if (targetDayIndex >= currentDayIndex) {
+  if (targetDayIndex > currentDayIndex) {
     date.setDate(date.getDate() + 7)
   }
 
