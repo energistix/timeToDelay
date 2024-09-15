@@ -86,6 +86,11 @@ function parseDate(date: string) {
 
 function estimateTimeUntil(futureDate: Date) {
   const now = new Date()
+
+  if (futureDate.getTime() < now.getTime()) {
+    return "Any moment now"
+  }
+
   const diffInMinutes = futureDate.getMinutes() - now.getMinutes()
   const diffInHours = futureDate.getHours() - now.getHours()
   const diffInDays = futureDate.getDate() - now.getDate()
