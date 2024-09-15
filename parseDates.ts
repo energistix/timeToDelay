@@ -1,21 +1,8 @@
 import * as A from "arcsecond"
 
-const days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-]
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-function parseDayTimeToDate(
-  day: string,
-  hour: number,
-  minute: number,
-  period: string
-) {
+function parseDayTimeToDate(day: string, hour: number, minute: number, period: string) {
   const toDay = new Date()
   const date = new Date()
 
@@ -59,11 +46,7 @@ const typeOneParser = A.sequenceOf([
   return parseDayTimeToDate(day, hour, minute, period)
 })
 
-const typeTwoParser = A.sequenceOf([
-  A.str("Next"),
-  A.str(" "),
-  A.choice(days.map(A.str)),
-]).map(([, , day]) => {
+const typeTwoParser = A.sequenceOf([A.str("Next"), A.str(" "), A.choice(days.map(A.str))]).map(([, , day]) => {
   const now = new Date()
   const currentDayIndex = now.getDay()
   const targetDayIndex = days.indexOf(day)
@@ -103,44 +86,23 @@ function parseDate(date: string) {
 
 function estimateTimeUntil(futureDate: Date) {
   const now = new Date()
-  const diffInMs = futureDate.getTime() - now.getTime()
+  const diffInMinutes = futureDate.getMinutes() - now.getMinutes()
+  const diffInHours = futureDate.getHours() - now.getHours()
+  const diffInDays = futureDate.getDate() - now.getDate()
+  const diffInWeeks = Math.floor(diffInDays / 7)
 
-  if (diffInMs <= 0) {
-    return "The date has passed"
-  }
-
-  const msInMinute = 60 * 1000
-  const msInHour = 60 * msInMinute
-  const msInDay = 24 * msInHour
-  const msInWeek = 7 * msInDay
-
-  const todayEnd = new Date(now)
-  todayEnd.setHours(23, 59, 59, 999)
-  const tomorrowStart = new Date(now)
-  tomorrowStart.setDate(now.getDate() + 1)
-  tomorrowStart.setHours(0, 0, 0, 0)
-
-  if (
-    futureDate >= tomorrowStart &&
-    futureDate.getTime() <= tomorrowStart.getTime() + msInDay
-  ) {
-    return "Tomorrow"
-  }
-
-  if (diffInMs >= msInWeek) {
-    const weeks = Math.round(diffInMs / msInWeek)
-    return `in ${weeks} week${weeks > 1 ? "s" : ""}`
-  } else if (diffInMs >= msInDay) {
-    const days = Math.round(diffInMs / msInDay)
-    return `in ${days} day${days > 1 ? "s" : ""}`
-  } else if (diffInMs >= msInHour) {
-    const hours = Math.round(diffInMs / msInHour)
-    return `in ${hours} hour${hours > 1 ? "s" : ""}`
-  } else if (diffInMs >= msInMinute) {
-    const minutes = Math.round(diffInMs / msInMinute)
-    return `in ${minutes} minute${minutes > 1 ? "s" : ""}`
+  if (diffInWeeks > 1) {
+    return `In ${diffInWeeks} weeks`
+  } else if (diffInDays > 1) {
+    return `In ${diffInDays} days`
+  } else if (diffInDays === 1) {
+    return `Tomorrow`
+  } else if (diffInHours > 0) {
+    return `In ${diffInHours} hours`
+  } else if (diffInMinutes > 0) {
+    return `In ${diffInMinutes} minutes`
   } else {
-    return "in less than a minute"
+    return "Any moment now"
   }
 }
 
