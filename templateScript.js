@@ -9,7 +9,4 @@
 // @grant        none
 // ==/UserScript==
 
-;(function () {
-  "use strict"
-  // CODE HERE
-})()
+// CODE HERE
