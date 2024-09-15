@@ -9,7 +9,8 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build": "bun build . --target=browser --outfile=index.js --minify"
+    "build": "bun build . --target=browser --outfile=index.js --minify && bun run buildscript.ts",
+    "bump": "bun build . --target=browser --outfile=index.js --minify && bun run buildscript.ts --bump"
   },
   "dependencies": {
     "arcsecond": "^5.0.0"
