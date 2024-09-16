@@ -9,8 +9,9 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build": "esbuild index.ts --bundle --minify --outfile=index.js && bun run buildscript.ts",
-    "bump": "esbuild index.ts --bundle --minify --outfile=index.js && bun run buildscript.ts --bump",
+    "bundle": "esbuild index.ts --bundle --minify --outfile=index.js --format=esm",
+    "build": "bun run bundle && bun run buildscript.ts",
+    "bump": "bun run bundle && bun run buildscript.ts --bump",
     "esbuild": "^0.23.1"
   },
   "dependencies": {
