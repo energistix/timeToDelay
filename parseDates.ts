@@ -102,7 +102,7 @@ function estimateTimeUntil(futureDate: Date) {
     return `In ${diffInDays} days`
   } else if (diffInDays === 1) {
     return `Tomorrow`
-  } else if (diffInHours > 0) {
+  } else if (diffInHours > 1) {
     return `In ${diffInHours} hours`
   } else if (diffInMinutes > 0) {
     return `In ${diffInMinutes} minutes`
