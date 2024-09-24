@@ -91,9 +91,13 @@ function estimateTimeUntil(futureDate: Date) {
     return "Any moment now"
   }
 
-  const diffInMinutes = futureDate.getMinutes() - now.getMinutes()
-  const diffInHours = futureDate.getHours() - now.getHours()
-  const diffInDays = futureDate.getDate() - now.getDate()
+  const diffInMinutes = (futureDate.getMinutes() - now.getMinutes() + 60) % 24
+  const diffInHours = (futureDate.getHours() - now.getHours() + 24) % 24
+  const diffInDays =
+    futureDate.getDate() -
+    now.getDate() +
+    (futureDate.getMonth() - now.getMonth()) * 30 +
+    (futureDate.getFullYear() - now.getFullYear()) * 365
   const diffInWeeks = Math.floor(diffInDays / 7)
 
   if (diffInWeeks > 1) {
