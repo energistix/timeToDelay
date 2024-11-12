@@ -6,7 +6,7 @@
 // @author       You
 // @match        https://simkl.com/**
 // @icon         https://simkl.com/favicon.ico
-// @grant        none
+// @grant        GM_registerMenuCommand
 // @updateURL    https://github.com/energistix/timeToDelay/raw/refs/heads/master/script.user.js
 // @downloadURL  https://github.com/energistix/timeToDelay/raw/refs/heads/master/script.user.js
 // ==/UserScript==

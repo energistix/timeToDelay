@@ -11,10 +11,10 @@
   "scripts": {
     "bundle": "esbuild index.ts --bundle --minify --outfile=index.js --format=esm",
     "build": "bun run bundle && bun run buildscript.ts",
-    "bump": "bun run bundle && bun run buildscript.ts --bump",
-    "esbuild": "^0.23.1"
+    "bump": "bun run bundle && bun run buildscript.ts --bump"
   },
   "dependencies": {
-    "arcsecond": "^5.0.0"
+    "arcsecond": "^5.0.0",
+    "esbuild": "^0.24.0"
   }
 }
