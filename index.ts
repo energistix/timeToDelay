@@ -47,7 +47,9 @@ function main() {
     } catch (error) {}
   })
 
-  const titleElement = document.querySelector("#bigtext-id1 > h2") as HTMLDivElement | null
+  const titleElement = document.querySelector(
+    ".SimklTVAboutBlock .SimklTVAboutTitleText h2.headDetail"
+  ) as HTMLDivElement | null
   if (titleElement) {
     // replace the element by a link to a search of it's inner text
     const searchUrlWithQuery = cfg.searchUrl.replace("%s", titleElement.innerText)
