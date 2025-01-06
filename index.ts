@@ -47,12 +47,19 @@ function main() {
     } catch (error) {}
   })
 
-  const titleElement = document.querySelector(
+  const mainTitleElement = document.querySelector(
+    ".SimklTVAboutBlock .SimklTVAboutTitleText h1.headDetail"
+  ) as HTMLDivElement | null
+
+  const secondaryTitleElement = document.querySelector(
     ".SimklTVAboutBlock .SimklTVAboutTitleText h2.headDetail"
   ) as HTMLDivElement | null
-  if (titleElement) {
+
+  if (secondaryTitleElement) {
+    const searchQuery = (secondaryTitleElement.innerText || mainTitleElement?.innerText) ?? ""
+
     // replace the element by a link to a search of it's inner text
-    const searchUrlWithQuery = cfg.searchUrl.replace("%s", titleElement.innerText)
+    const searchUrlWithQuery = cfg.searchUrl.replace("%s", searchQuery)
 
     const link = document.createElement("a")
     link.href = searchUrlWithQuery
@@ -66,10 +73,11 @@ function main() {
     // make sure the text stays white, and is a bit bigger than default
     link.style.color = "white"
     link.style.fontSize = "1.2em"
+    link.style.textWrap = "auto"
 
-    link.innerText = `Search on ${domain} for "${titleElement.innerText}"`
+    link.innerText = `Search on ${domain} for "${searchQuery}"`
 
-    titleElement.replaceWith(link)
+    secondaryTitleElement.replaceWith(link)
   }
 }
 
