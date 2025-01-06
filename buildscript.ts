@@ -10,8 +10,13 @@ if (version === undefined || version === null) {
   throw new Error("Version not found")
 }
 const bump = process.argv.includes("--bump")
-const newVersionTag = `@version${version[1]}1.${Number(version[2]) + (bump ? 1 : 0)}`
+const newVersionTag = `@version${version[1]}1.${
+  Number(version[2]) + (bump ? 1 : 0)
+}`
 
-let newScript = templateScript.replace("// CODE HERE", code).replace(versionRegex, newVersionTag)
+let newScript = templateScript
+  .replace("// CODE HERE", code)
+  .replace(versionRegex, newVersionTag)
 
-await fs.writeFile("./script.user.js", newScript)
+fs.writeFile("./script.user.js", newScript)
+fs.unlink("./index.js")
